@@ -1,0 +1,313 @@
+@charset "utf-8";
+
+* {margin: 0; padding: 0; box-sizing: border-box;}
+a {text-decoration: none; color: inherit;}
+ul {list-style: none;}
+img {max-width: 100%;}
+
+.blind {
+    position: absolute;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    text-indent: -9999px; /* 혹은 */ font-size: 0px; /* 혹은 */ line-height: 0px;}
+/* html에서 웹폰트 로고가 쓰이면 이건 시각장애인을 위해 읽힐 수 없기 때문에
+   span을 추가하고 blind처리를 해서 읽히되 화면에선 안보이게 한다. */
+/* 여기서 position의 목적은 위치를 잡는 것보다는 인라인성격인 요소에 너비와 높이를 주기 위함 */
+
+.cf::after {content: ''; display: block; clear: both;}
+
+/* 구조를 보기위해 처음에만 일시적으로 높이와 배경색을 설정 */
+#header {position: fixed; width: 100%; top: 0; left: 0;
+/* position: fixed/absolute를 쓰면 블록요소가 지닌 기본 width: 100%속성이 사라져버림
+   때문에 직접 넣어줘야 함 */
+   background: #fff;
+/* background를 설정하지 않으면 배경이 다른 요소의 것을 받아드리기 때문에
+   횡스크롤할 때 아래 내용이 header와 겹쳐질 수 있음 */
+
+   z-index: 2;
+/* 만약에 main에도 position이 있을 경우 아래 박스가 위로 올라오기 때문에 그런 경우 z-index로 우선순위 부여
+   -> 부여하지 않을 경우 main의 .welcome-msg가 position을 지녀서 위로 올라와 header의 box-shadow를 가림*/
+   padding: 0 40px;
+   box-shadow: 0 1px 3px 0 rgba(0,0,0,.3);
+}
+
+#header h1 {
+    float: left; width: 50px; margin-right: 40px; margin-top: 24px;}
+#hearder #nav {
+    float: right; width: calc(100% - 90px); position: relative;}
+    /* calc (값 - 값): 꼭 마이너스 기호 앞뒤로 띄어쓰기 할 것 */
+
+#header #nav .depth1 > li {
+    display: inline-block;}
+    /* display: inne-block을 통해 일렬정렬 */
+    /* 아래 a는 박스로 링크를 줄 것인지, 글씨에만 줄 것인지, 부모를 따를 것인지에 따라 display를 조절 */
+#header #nav .depth1 > li > a {
+    display: inline-block; padding: 40px 0;
+font-size: 14px; font-weight: bold;}
+#header #nav .depth1 > li+li > a {padding-left: 24px;}
+
+#header #nav .membership {position: absolute; top: 50%; right: 30px; margin-top: -17px;}
+#header #nav .membership a {
+    font-size: 14px; font-weight: bold;
+    padding: 6px 16px 8px;
+    border: 1px solid #000;
+    border-radius: 50px;}
+#header #nav .membership a:first-child {margin-right: 40px; border: none; padding: 7px 0;}
+#header #nav .membership a:first-child:hover {color: #00745a;}
+#header #nav .membership a:nth-child(2) {margin-right: 16px; transition: 0.5s;}
+#header #nav .membership a:nth-child(2):hover {background: rgba(0,0,0,.06);}
+#header #nav .membership a:nth-child(3) {background: #000; color: #fff; transition: 0.5s;}
+#header #nav .membership a:nth-child(3):hover {background: rgba(0,0,0,.7)}
+/* ---------------------------------------------------------------------------------- */
+
+#main {overflow: hidden; padding-top: 100px;}
+
+#main .startorder {
+    position: fixed; bottom: 50px; right: 50px;
+    z-index: 999;
+/* 가장 위로 띄우기 위해 z-index */}
+#main .startorder a {
+    display: block;
+    background: #00a862;
+    color: #fff;
+    font-size: 19px; font-weight: bold;
+    padding: 18px 24px;
+    border-radius: 50px;
+    box-shadow: 0 0 6px rgb(0, 0, 0, 0.24), 0 8px 12px rgb(0, 0, 0, 0.14);
+
+}
+
+#main .welcome-msg {
+    position: fixed;
+    width: 40%; left:0; height: 100%;
+    background: #fff;
+    box-shadow: 0 1px 1px rgba(0,0,0,.24),0 4px 4px rgba(0,0,0,.12);}
+#main .welcome-msg .text {
+    padding: 0 131px;
+    font-size: 28px; font-weight: bold; 
+    padding-top: 40vh;}
+
+#main #container {width: 60%; margin-left: 40%; padding: 20px 0;}
+/* position:fixed로 인해 .welcom-msg와 .container가 겹치는 너비만큼
+   .container에 margin을 줘서 빼네 준다. position이나 float시킬 필요 없음 */
+#container .rewards {padding: 0 40px;}
+#container .rewards h2 {font-size: 14px; margin-bottom: 20px;}
+#container .rewards ul {overflow: hidden;}
+/* margin으로 여백을 줄 경우엔 너비값을 나눠가지도록할 때 여백을 뺀 값으로 계산 필요
+   padding을 쓸 경우엔 그럴 필요 없으나 대신 padding을 준 요소의 내용 사이즈가 줄어들 수 있음
+   -> 정해진 공간 내에서 내부여백을 늘렸기 때문에 내부여백만큼 내용 사이즈가 줄어듦 */
+#container .rewards li {float: left; width: 32.3333%;}
+#container .rewards li:nth-child(2) {margin: 0 1.5%;}
+#container .rewards li img {border-radius: 15px;}
+#container .rewards li p {font-size: 19px; padding-top: 24px;}
+
+#container .btn a {
+    display: inline-block;
+/* a태그를 이용해 버튼을 만들때는 반드시 display: inline-block을 줘서
+   너비는 콘텐츠너비를 유지하되 block요소 성격을 갖도록 해야 한다. */
+    font-size: 14px; font-weight: bold;
+    padding: 6px 16px 8px;
+    border: 1px solid #000; border-radius: 50px;}
+/* a에 padding을 줬기 때문에 클릭할 수 있는 a의 영역이 확장됨
+   -> margin은 박스 밖에 여백이기 때문에 요소의 성격을 갖지 않지만,
+      padding은 박스 안 영역이기 때문에 요소의 성격과 합쳐짐(즉, padding여백은 요소의 속성을 공유 */
+#container .btn a:nth-child(1) {background: #000; color: #fff;}
+#container .btn {padding: 24px 0;}
+/* ---------------------------------------------------------------------------------- */
+
+#container .order {
+    background: #f9f9f9;
+    padding: 40px 0 80px;}
+#container .order>div {
+    border-radius: 30px; background: #fff; width: 500px;
+    margin: 0 auto 20px;
+    box-shadow: 0 0 0.5px 0 rgb(0 0 0 / 14%), 0 1px 1px 0 rgba(0, 0, 0, 0.24);}
+    /* rgba대신 위 방식으로도 표현 가능 */
+#container .order .order1 {padding: 20px;}
+#container .order .order1>div:first-child {
+    position: relative;
+    padding-bottom: 16px;}
+#container .order .order1 .answer {
+    width: 80%; font-size: 28px; font-weight: bold; line-height: 1.5em;}
+#container .order .order1 .beta {
+    position: absolute;
+    top: 5px; right: 0;
+    font-size: 13px; font-weight: bold;
+    color: #dd92c0;
+    letter-spacing: 0.5em;}
+#container .order .order1>div:nth-child(2) {
+    font-size: 16px; padding: 16px 0; border-top: 1px solid #999;}
+    /* 여기서 .order1 div:nth-child(2)로만 걸어 놓으면
+       자손 중 '두번째 div'인게 .beta도 있기 때문에 그곳에도 엉뚱한 스타일이 걸림
+       -> 대상이 자손 전체가 아니라면 부등호(>)를 꼭 넣어서 자식을 특정해줘야함 */
+#container .order .order1>div:nth-child(3) a {
+    display: block;
+    /* background: #d4e9e2; */
+    border-radius: 20px;
+    position: relative;
+    padding: 30px 16px;
+    font-size: 19px; line-height: 1.5em;
+    overflow: hidden;}
+#container .order .order1>div:nth-child(3) a:first-child {margin-bottom: 20px;
+    background: #d4e9e2 url(../imgs/iced_drink.png) no-repeat 95% 35px;
+    background-size: 70px auto;
+}
+#container .order .order1>div:nth-child(3) a:last-child {
+    background: #d4e9e2 url(../imgs/hot_drink.png) no-repeat 103% -50px;
+}
+#container .order .order1>div:nth-child(3) a strong {display: block;}
+/* Iced와 Hot의 줄바꿈을 위해 strong을 block성격으로 줌
+   되도록 <br>은 지양한다. */
+
+/* #container .order .order1>div:nth-child(3) a img {
+    position: absolute; bottom: -10px;}
+#container .order .order1>div:nth-child(3) a:nth-child(1) img {
+        width: 63px; right: 20px;}
+#container .order .order1>div:nth-child(3) a:nth-child(2) img {
+        width: 85px; right: -5px;} */
+        /* html에 img로 넣었던걸 background로 변경 */
+/* ---------------------------------------------------------------------------------- */
+
+#container .order .buy {overflow: hidden;}
+/* .buy>img에 위쪽 모서리에만 둥글기값을 주는 방법으로 튀어나온 모서리를 없애도 됨 */
+/* 또는 order>div에 overflow:hidden을 넣어서 한번에 oreder1,2,3에 모두 스타일을 줘도 됨
+   -> order1에서 밖으로 나오는 요소가 없기 때문에 영향받을게 없어서 그냥 같이 처리하는 것
+      만약 영향받을 요소가 있다면 지금처럼 .buy에만 overflow를 줘야함 */
+
+#container .order .buy>div {padding: 24px;}
+#container .order .buy>div h3 {font-size: 19px;}
+#container .order .buy>div p {font-size: 16px; padding: 16px 0;}
+#container .order .buy>div a {
+    display: inline-block;
+    font-size: 16px; font-weight: bold;
+    padding: 6px 16px 8px;
+    color: #00745a;
+    border: 1px solid #00745a;
+    border-radius: 50px;
+    transition: all 0.5s;}
+#container .order .buy>div a:hover {background: rgba(235, 244, 241);}
+/* ---------------------------------------------------------------------------------- */
+
+#container .company-info {padding: 48px 40px 32px; background: #fff;}
+
+#container .company-info .depth1 {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;}
+#container .company-info .depth1>li {margin-bottom: 20px;}
+#container .company-info .depth1>li>a {
+    display: block;
+    font-size: 19px; font-weight: bold;
+    padding: 15px 0; /* 강사님은 20px 줌 */
+    position: relative;}
+
+#container .company-info .depth1>li>a::after {
+    content:'\f078'; /* content: '\f077 */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    top: 50%; right: 15.5px;
+    margin-top: -9.5px;
+    transition: all 0.5s;}
+#container .company-info .depth1>li.on>a::after {content: '\f077'}
+/* #container .company-info .depth1>li>a:hover::after {transform: rotate(-180deg);} */
+/* 위에 li.on>a::after를 추가하면서 부자연스러운 것 때문에 transform을 주석 처리함 */
+
+    /* #container .company-info .depth1>li>a:hover::after {
+        width: 50px; height: 50px; 
+        border-radius: 50%; background: #ddd;} */
+
+/* 화살표로고에 hover했을 때 배경색 변화를 줘야하는데 로고를 after로 넣어서 위 방식처럼은 불가능
+   -> 때문에 아래처럼 before로 또 배경을 따로 추가해줌 */
+#container .company-info .depth1>li>a::before {
+    content: '';
+    position: absolute; top: 50%; right: 0;
+    margin-top:-25px;
+    width: 50px; height: 50px; 
+    border-radius: 50%;
+    /* border-radius: 50%를 하면 원형으로 만들 수 있음 */
+    transition: 0.5s;}
+#container .company-info .depth1>li>a:hover::before {
+    background: #ddd;}
+
+#container .company-info .depth2 {display: none;}
+/* #container .company-info .depth1 > li.on .depth2 {display: block;} */
+/*
+   li의 class에 on이 부여되면 block이 되도록하는 작업
+   - 기본적으론 class가 안붙어 있는 상태, js와 연계해서 이벤트 발생시 class를 부여하도록 한다.
+*/
+
+#container .company-info .depth2>li {margin-bottom: 8px;}
+#container .company-info .depth2>li>a {
+    display: inline-block;
+    /* inline요소에는 여백이 안먹히기 때문에 속성을 바꿔줘야함
+       박스전체에 링크가 걸리길 원하면 block, 글씨크기만큼만 걸리길 원하면 inline-block */
+    padding: 8px 5px; /* 강사님은 8px 0으로 줌 */
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.58);}
+/* ---------------------------------------------------------------------------------- */
+
+#container .footer {padding: 0px 40px 100px;}
+#container .footer .sns a {
+    display: inline-block;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: #000;
+    color: #fff;
+    font-size: 18px;
+    text-align: center;
+    line-height: 30px;
+    /* 배경 안 로고(텍스트속성)의 세로정렬을 위해 height와 같은 크기로 하되
+       약간의 치우침을 방지하기 위해 1-2px정도는 뺴고 적용 */
+    /* 첫번째 로고는 배경너비가 안정해져 있고 텍스트만 있는 것이기 때문에 자간을 줘도 별다른 효과 없음
+       -> 즉, 정해진 배경크기가 있어야 그 안에서 자간형성의 영향을 받는 것 */
+    vertical-align: middle;
+    /* a들을 같은 높이로 맞춤 */
+    margin: 10px 0 20px; /* 강사님은 top, bottom으로 두번 입력 */
+    position: relative;}
+#container .footer .sns a+a {margin-left: 15px;}  
+#container .footer .sns a:first-child {
+    font-size: 33px;
+    background: #fff;
+    /* 처음에 background를 none으로 했더니 첫번째 로고만 배경이 희미하게 위로 덮힘
+       -> 배경이 투명하기 때문에 위로 덮힐게 없어서 겹쳐지는 것 */
+    color: #000;}
+    /* 첫 로고만 로고 자체에 배경이 있어서 .sns a {}에서 준것과 같은 속성이 필요 없기 떄문에
+       first-child로 다른 속성을 부여 */
+    /* 강사님이랑 다른점: text-align: center와 width, height값에 대한 것은 중복이길래 지움 */
+    /* 배경색이랑 글씨색을 서로 바꿔봤더니 색상이 반전됨. 원래색 유지를 위해선 저게 맞다. */
+
+#container .footer .sns a::after {
+    content: '';
+    position: absolute;
+    /* width: 48px; height: 48px; */
+    /* top: 50%; left: 50%; */
+    /* margin-top: -24px; margin-left: -24px; */
+    /* background: none; */
+    /* --- 아래 hover쪽에 주석처리한 background포함 위에 주석처리한 요소들을 쓰면
+           hover했을 때 그냥 배경이 나왔다 꺼졌다한다.--- */
+    /* ---새롭게 부여한 코드는 hover했을 때 단순히 배경색이 나타나기만 하는 것이 아니라
+          가운데에서부터 배경이 점점 커지면서 나타나게 바꿔준 것 --- */
+    top: 50%; right: 50%; bottom: 50%; left: 50%;
+    /* 만약 네방향에 0으로 잡아주면 부모와 똑같은 사이즈가 잡히고, 50%씩 주면 가운데로 몰려서 사라짐
+       -> 만약 0으로 줬다면 똑같은 크기여서 겹쳐지기 때문에 더 크게 만들려면 음수값을 준다 */
+    border-radius: 50%;
+    background: #ddd;
+    z-index: -1;
+    transition: all 0.3s;}
+#container .footer .sns a:hover::after {
+    /* background: #ddd; */
+    top: -8px; right: -8px; bottom: -8px; left: -8px;
+    /* --- 음수값을 줬기 때문에 50%에서 음수값으로 바뀌면서 배경이 서서히 커진다. --- */
+}
+/* hover쪽에 z-index를 놔봤는데 효과는 갖지만 내부 웹아이콘(텍스트)가 깜빡거리는 부작용 있음 */
+
+#container .footer .bmenu li a {
+    display: inline-block;
+    font-size: 16px;
+    padding: 8px 0;
+    margin-bottom: 4px;}
+
+#container .footer .copylight {
+    font-size: 14px;
+    padding: 16px 0;}
+
